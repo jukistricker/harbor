@@ -1,6 +1,5 @@
 <p align="center">
-    <img src="https://res.cloudinary.com/db0sdo295/image/upload/v1769674059/harbor_noname_ztnxmt.png" 
-         style="border-radius: 50%; object-fit: cover;" 
+    <img src="https://res.cloudinary.com/db0sdo295/image/upload/c_fill,g_auto,h_500,w_500,r_max/v1769674059/harbor_noname_ztnxmt.png"  
          align="center" 
          width="30%" 
          height="auto">
