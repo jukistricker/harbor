@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://res.cloudinary.com/db0sdo295/image/upload/c_fill,g_auto,h_500,w_500,r_max/v1769674059/harbor_noname_ztnxmt.png"  
+    <img src="https://res.cloudinary.com/db0sdo295/image/upload/c_fill,g_auto,h_500,w_500,r_max/v1769674059/Harbor_noname1_kyn7bm.png"  
          align="center" 
          width="30%" 
          height="auto">
