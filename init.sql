@@ -1,47 +1,26 @@
-PRAGMA journal_mode = WAL;
-PRAGMA synchronous = NORMAL;
-
--- 1. Cấu hình Target
-CREATE TABLE IF NOT EXISTS monitor_targets (
+-- Lưu trữ mọi bản tin để vẽ biểu đồ và tính Delta
+CREATE TABLE IF NOT EXISTS harbor_metrics (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    base_url TEXT NOT NULL,
-    check_interval INTEGER DEFAULT 5,
-    is_active BOOLEAN DEFAULT 1
-);
-
--- 2. Dữ liệu nóng cho Dashboard (General View)
-CREATE TABLE IF NOT EXISTS health_snapshots (
-    target_id INTEGER PRIMARY KEY,
-    pid INTEGER,               -- PID của chương trình đang bị soi
-    last_status INTEGER,
-    last_latency REAL,
-    cpu_usage REAL,
-    ram_usage_mb REAL,
-    tcp_connections INTEGER,
+    target_id TEXT,             -- Định danh (VD: main.exe_13612)
+    timestamp INTEGER,          -- Unix Epoch từ Agent
+    
+    -- Layer 2
     handle_count INTEGER,
-    health_score INTEGER,
-    bottleneck TEXT,
-    error_message TEXT,        -- Lưu nhanh lỗi nếu có
-    last_check_at INTEGER,     -- Unix Timestamp
-    FOREIGN KEY (target_id) REFERENCES monitor_targets(id) ON DELETE CASCADE
+    thread_count INTEGER,
+    mem_private INTEGER,
+    total_cycles INTEGER,
+    
+    -- Layer 3
+    active_connections INTEGER,
+    
+    -- Layer 4
+    disk_read INTEGER,
+    disk_write INTEGER,
+    net_out_errors INTEGER,
+    
+    mode TEXT                   -- Normal / Hyper
 );
 
--- 3. Dữ liệu vẽ biểu đồ (Lưu 7 ngày)
-CREATE TABLE IF NOT EXISTS health_metrics_raw (
-    target_id INTEGER NOT NULL,
-    timestamp_ns INTEGER NOT NULL, 
-    latency_ms REAL NOT NULL,
-    status_code INTEGER,
-    PRIMARY KEY (target_id, timestamp_ns)
-) WITHOUT ROWID;
+-- Index để truy vấn chuỗi thời gian cực nhanh
+CREATE INDEX IF NOT EXISTS idx_metrics_timeline ON harbor_metrics(target_id, timestamp);
 
--- 4. Tổng kết cuối ngày
-CREATE TABLE IF NOT EXISTS health_daily_summary (
-    target_id INTEGER NOT NULL,
-    date_unix INTEGER NOT NULL, -- Unix timestamp của 00:00:00 ngày hôm đó
-    avg_latency REAL,
-    uptime_percentage REAL,
-    total_checks INTEGER,
-    PRIMARY KEY (target_id, date_unix)
-);

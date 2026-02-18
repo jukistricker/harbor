@@ -12,9 +12,6 @@ type Config struct {
 	DBPath  string `env:"DB_PATH" envDefault:"harbor.db"`
 	Port    int    `env:"PORT" envDefault:"8088"`
 	
-	// Cấu hình cho Monitor
-	MonitorInterval int `env:"MONITOR_INTERVAL" envDefault:"5"` // Giây
-	MaxBatchSize    int `env:"MAX_BATCH_SIZE" envDefault:"100"` // Số lượng metric mỗi lần commit
 }
 
 // LoadConfig đọc file .env và parse vào struct

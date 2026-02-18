@@ -21,7 +21,6 @@ func ErrorHandler(debug bool) gin.HandlerFunc {
 
 		err := c.Errors.Last().Err
 
-		// AppError -> chuẩn catalog
 		var ae *appErr.AppError
 		if errors.As(err, &ae) {
 			var data any

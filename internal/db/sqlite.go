@@ -7,12 +7,10 @@ import (
 	"os"
 )
 
-// Đổi tên từ Store thành Client cho đúng ý nghĩa hạ tầng
 type Client struct {
 	Conn *sql.DB
 }
 
-// Đổi tên từ NewStore thành NewClient
 func NewClient(dbPath string) (*Client, error) {
 	dsn := fmt.Sprintf("%s?_journal_mode=WAL&_sync=NORMAL&_cache_size=-10000&_busy_timeout=5000", dbPath)
 	
@@ -39,7 +37,6 @@ func NewClient(dbPath string) (*Client, error) {
 	return &Client{Conn: db}, nil
 }
 
-// Đổi tên receiver từ s *Store thành c *Client
 func (c *Client) InitSchema(sqlFile string) error {
 	content, err := os.ReadFile(sqlFile)
 	if err != nil {
